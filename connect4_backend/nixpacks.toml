@@ -1,0 +1,11 @@
+[phases.setup]
+nixpkgsArchive = "nixpkgs-unstable"
+
+[phases.install]
+nixPackages = ["python311" , "postgresql", "gcc"]
+
+[phases.build]
+cmds = ["pip install -r requirements.txt"]
+
+[phases.start]
+cmd = "gunicorn connect4_backend.wsgi --log-file -"
