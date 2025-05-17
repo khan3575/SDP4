@@ -13,6 +13,8 @@ from datetime import timedelta
 
 from pathlib import Path
 
+import os
+import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -26,7 +28,6 @@ SECRET_KEY = 'django-insecure-_t)4^76u=$h4qy6n)u)m+%#p=@w0k+gl@k(%e!kil=u#q_4&_d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -86,6 +87,21 @@ DATABASES = {
     }
 }
 
+ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = ['https://*.up.railway.app']
+
+# Database configuration
+if 'RAILWAY_ENVIRONMENT' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('PGDATABASE', ''),
+            'USER': os.environ.get('PGUSER', ''),
+            'PASSWORD': os.environ.get('PGPASSWORD', ''),
+            'HOST': os.environ.get('PGHOST', ''),
+            'PORT': os.environ.get('PGPORT', ''),
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
